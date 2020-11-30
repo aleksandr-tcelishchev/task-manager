@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -33,11 +36,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginForm loginForm){
+    public ResponseEntity login(@RequestBody User userFromLogin){
         try{
-            User user = userService.findUserByUsernameAndPassword(loginForm.getUsername(),loginForm.getPassword());
+            User user = userService.findUserByUsernameAndPassword(userFromLogin.getUsername(),userFromLogin.getPassword());
             String token =jwtProvider.generateToken(user.getUsername());
-            return ResponseEntity.ok(token);
+            Map<String,String> map = new HashMap<>();
+            map.put("token",token);
+            return ResponseEntity.ok(map);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
