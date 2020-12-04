@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -47,7 +48,7 @@ public class TaskController {
     //временная реализация без валидации
     @PostMapping("/task/create")
     @ResponseBody
-    public Task createTask(@RequestBody Task task) {
+    public Task createTask(@RequestBody Task task,Principal user) {
         return taskService.save(task);
     }
 }
