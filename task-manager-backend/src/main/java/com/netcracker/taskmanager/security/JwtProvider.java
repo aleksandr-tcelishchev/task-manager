@@ -53,4 +53,20 @@ public class JwtProvider {
         Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
         return claims.get("email").toString();
     }
+
+    public String generateHref(String id, Integer days) {
+        Date date = Date.from(LocalDate.now().plusDays(days).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        HashMap<String,Object> claims = new HashMap<>();
+        claims.put("project",id);
+        return Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(date)
+                .signWith(SignatureAlgorithm.HS512,SECRET)
+                .compact();
+    }
+
+    public String getProjectFromHref(String href){
+        Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(href).getBody();
+        return claims.get("project").toString();
+    }
 }
