@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class CommentService {
         this.taskService = taskService;
     }
 
-    public Comment saveComment(String taskId,MultipartFile file, String message) throws IOException {
+    public Comment saveComment(String taskId, MultipartFile file, String message, Principal user) throws IOException {
         Comment comment = new Comment();
         comment.setCreationTime(ZonedDateTime.now());
         comment.setMessage(message);
@@ -43,7 +44,7 @@ public class CommentService {
             list.add(commentFromDb);
             task.setComments(list);
         }
-        taskService.save(task);
+        taskService.save(task,user);
         return commentFromDb;
     }
 

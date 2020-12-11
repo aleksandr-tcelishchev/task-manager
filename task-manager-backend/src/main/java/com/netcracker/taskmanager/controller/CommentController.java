@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -46,9 +47,9 @@ public class CommentController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity addCommentForTaskById(@PathVariable String id, CommentForm commentForm){
+    public ResponseEntity addCommentForTaskById(@PathVariable String id, CommentForm commentForm, Principal user){
         try{
-            return ResponseEntity.status(HttpStatus.CREATED).body(commentService.saveComment(id,commentForm.getFile(),commentForm.getMessage()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(commentService.saveComment(id,commentForm.getFile(),commentForm.getMessage(),user));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

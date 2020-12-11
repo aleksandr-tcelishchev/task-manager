@@ -21,6 +21,7 @@ public class Task {
     private List<String> tags;
     private List<Task> subTasks;
     private List<Comment> comments;
+    private boolean isCompleted;
 
     private Integer priority;
 
