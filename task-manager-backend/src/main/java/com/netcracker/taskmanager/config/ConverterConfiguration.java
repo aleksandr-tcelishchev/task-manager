@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
 import java.util.Arrays;
 
-@Configuration
+
 public class ConverterConfiguration {
 
     @Bean
